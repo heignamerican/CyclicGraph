@@ -18,6 +18,10 @@ public class LoopCheckerNonRecursion implements LoopChecker {
                 children.addAll(parts.getParts());
             }
 
+            boolean hasLoop() {
+                return parents.contains(self);
+            }
+
             MyStack createNext(Parts nextParts) {
                 final MyStack stack = new MyStack(nextParts);
                 stack.parents.addAll(parents);
@@ -36,7 +40,7 @@ public class LoopCheckerNonRecursion implements LoopChecker {
             }
 
             final MyStack current = stack.pop();
-            if (current.parents.contains(current.self))
+            if (current.hasLoop())
                 return true;
 
             final Parts nextParts = current.children.poll();
