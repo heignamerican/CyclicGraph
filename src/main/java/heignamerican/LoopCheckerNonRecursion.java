@@ -2,7 +2,8 @@ package heignamerican;
 
 import java.util.*;
 
-public class LoopCheckerNonRecursion {
+public class LoopCheckerNonRecursion implements LoopChecker {
+    @Override
     public boolean thereIsLoopIn(Parts parts) {
         class MyStack {
             List<Parts> parents = new ArrayList<>();
