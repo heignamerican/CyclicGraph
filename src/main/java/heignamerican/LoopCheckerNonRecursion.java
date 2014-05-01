@@ -6,38 +6,44 @@ public class LoopCheckerNonRecursion implements LoopChecker {
     @Override
     public boolean thereIsLoopIn(Parts parts) {
         class MyStack {
-            List<Parts> parents = new ArrayList<>();
-            Parts self;
-            Queue<Parts> children = new LinkedList<>();
+            final List<Parts> parents;
+            final Parts self;
+            final Queue<Parts> children;
+
+            MyStack(Parts parts) {
+                parents = new ArrayList<>();
+                children = new LinkedList<>();
+
+                self = parts;
+                children.addAll(parts.getParts());
+            }
+
+            MyStack createNext(Parts nextParts) {
+                final MyStack stack = new MyStack(nextParts);
+                stack.parents.addAll(parents);
+                stack.parents.add(self);
+                return stack;
+            }
         }
 
 
-        MyStack first = new MyStack();
-        first.self = parts;
-        first.children.addAll(parts.getParts());
-
-        Stack<MyStack> stack = new Stack<>();
-        stack.push(first);
+        final Stack<MyStack> stack = new Stack<>();
+        stack.push(new MyStack(parts));
 
         while (true) {
             if (stack.isEmpty()) {
                 return false;
             }
 
-            MyStack current = stack.pop();
+            final MyStack current = stack.pop();
             if (current.parents.contains(current.self))
                 return true;
 
-            Parts poll = current.children.poll();
+            final Parts nextParts = current.children.poll();
             if (!current.children.isEmpty())
                 stack.push(current);
-            if (poll != null) {
-                MyStack next = new MyStack();
-                next.parents.addAll(current.parents);
-                next.parents.add(current.self);
-                next.self = poll;
-                next.children.addAll(poll.getParts());
-                stack.push(next);
+            if (nextParts != null) {
+                stack.push(current.createNext(nextParts));
             }
         }
     }
