@@ -1,6 +1,7 @@
 package heignamerican;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,5 +25,9 @@ public class Parts implements Iterable<Parts> {
     @Override
     public Iterator<Parts> iterator() {
         return list.iterator();
+    }
+
+    public Collection<? extends Parts> getParts() {
+        return list;
     }
 }
