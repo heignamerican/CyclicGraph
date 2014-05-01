@@ -12,7 +12,7 @@ public class LoopCheckerRecursion implements LoopChecker {
         if (parents.contains(parts))
             return true;
 
-        for (Parts p : parts) {
+        for (Parts p : parts.getParts()) {
             parents.push(parts);
             if (hasLoopIn(p, parents))
                 return true;
