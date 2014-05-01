@@ -2,7 +2,7 @@ package heignamerican;
 
 import java.util.Stack;
 
-public class LoopChecker {
+public class LoopCheckerRecursion {
     public boolean thereIsLoopIn(Parts parts) {
         return hasLoopIn(parts, new Stack<>());
     }

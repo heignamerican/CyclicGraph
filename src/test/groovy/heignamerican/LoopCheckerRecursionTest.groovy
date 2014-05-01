@@ -2,7 +2,7 @@ package heignamerican
 
 import org.junit.Test;
 
-class LoopCheckerTest {
+class LoopCheckerRecursionTest {
     @Test
     void testループなし() {
         final Parts a = new Parts("A")
@@ -14,7 +14,7 @@ class LoopCheckerTest {
         b.add(d)
         c.add(d)
 
-        assert new LoopChecker().thereIsLoopIn(a) == false
+        assert new LoopCheckerRecursion().thereIsLoopIn(a) == false
     }
 
     @Test
@@ -29,6 +29,6 @@ class LoopCheckerTest {
         c.add(d)
         d.add(b)
 
-        assert new LoopChecker().thereIsLoopIn(a) == true
+        assert new LoopCheckerRecursion().thereIsLoopIn(a) == true
     }
 }
