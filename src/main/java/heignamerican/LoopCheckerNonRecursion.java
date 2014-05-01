@@ -5,12 +5,12 @@ import java.util.*;
 public class LoopCheckerNonRecursion implements LoopChecker {
     @Override
     public boolean thereIsLoopIn(Parts parts) {
-        class MyStack {
+        class Context {
             final List<Parts> parents;
             final Parts self;
             final Queue<Parts> children;
 
-            MyStack(Parts parts) {
+            Context(Parts parts) {
                 parents = new ArrayList<>();
                 children = new LinkedList<>();
 
@@ -22,32 +22,32 @@ public class LoopCheckerNonRecursion implements LoopChecker {
                 return parents.contains(self);
             }
 
-            MyStack createNext(Parts nextParts) {
-                final MyStack stack = new MyStack(nextParts);
-                stack.parents.addAll(parents);
-                stack.parents.add(self);
-                return stack;
+            Context createNext(Parts nextParts) {
+                final Context nextContext = new Context(nextParts);
+                nextContext.parents.addAll(parents);
+                nextContext.parents.add(self);
+                return nextContext;
             }
         }
 
 
-        final Stack<MyStack> stack = new Stack<>();
-        stack.push(new MyStack(parts));
+        final Stack<Context> rest = new Stack<>();
+        rest.push(new Context(parts));
 
         while (true) {
-            if (stack.isEmpty()) {
+            if (rest.isEmpty()) {
                 return false;
             }
 
-            final MyStack current = stack.pop();
+            final Context current = rest.pop();
             if (current.hasLoop())
                 return true;
 
             final Parts nextParts = current.children.poll();
             if (!current.children.isEmpty())
-                stack.push(current);
+                rest.push(current);
             if (nextParts != null) {
-                stack.push(current.createNext(nextParts));
+                rest.push(current.createNext(nextParts));
             }
         }
     }
