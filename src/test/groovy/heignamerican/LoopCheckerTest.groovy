@@ -10,6 +10,13 @@ abstract class LoopCheckerTest {
     abstract void setUp();
 
     @Test
+    void test単一Parts() {
+        final Parts a = new Parts("A")
+
+        assert loopChecker.thereIsLoopIn(a) == false
+    }
+
+    @Test
     void testループなし() {
         final Parts a = new Parts("A")
         final Parts b = new Parts("B")
